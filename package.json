@@ -1,0 +1,15 @@
+{
+  "name": "docket",
+  "version": "1.0.0",
+  "description": "DOCKET is a command-line (CLI) program to manage your daily tasks.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rohit-rajpurohit/DOCKET.git"
+  },
+  "author": "Rohit Rajpurohit",
+  "license": "ISC",
+  "dependencies": {
+    "cfonts": "^2.10.0",
+    "colors": "^1.4.0"
+  }
+}
