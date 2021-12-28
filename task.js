@@ -29,22 +29,17 @@ const info = () => {
   );
   console.log(greeting.string);
   console.log(
-    `    Usage :-
-  --------------------------------------------------------------------------------------------------------------------
+    `   Usage :-
+  --------------------------------------------------------------------------------------------------------------
                                                                                                                       
-   $ ./task add 2 complete doodle    ->    # Add a new item with priority 2 and text "complete doodle" to the list.\n 
+   $ ./task add 2 draw doodle   # Add a new task with priority 2 and text "draw doodle" to the list.\n 
+   $ ./task ls                  # Show incomplete tasks sorted by priority in ascending order.\n      
+   $ ./task del INDEX           # Delete the incomplete task with the given index.\n                       
+   $ ./task done INDEX          # Mark the incomplete task with the given index as complete.\n             
+   $ ./task report              # Statistics.\n
+   $ ./task help                # Show usage.                                                              
                                                                                                                       
-   $ ./task ls                       ->    # Show incomplete list items sorted by priority in ascending order.\n      
-                                                                                                                      
-   $ ./task del INDEX                ->    # Delete the incomplete item with the given index.\n                       
-                                                                                                                      
-   $ ./task done INDEX               ->    # Mark the incomplete item with the given index as complete.\n             
-                                                                                                                      
-   $ ./task report                   ->    # Statistics.\n
-                                                                                                                                                                                    
-   $ ./task help                     ->    # Show usage.                                                              
-                                                                                                                      
-  --------------------------------------------------------------------------------------------------------------------
+  --------------------------------------------------------------------------------------------------------------
     `.green
   );
 };
