@@ -1,7 +1,7 @@
 const fs = require("fs"); // Import file system module
 const process = require("process"); // Import process module
 
-const colors = require("colors"); // Requiring colors module
+const chalk = require("chalk"); // Requiring colors module
 const CFonts = require("cfonts"); //Requiring cfonts module
 
 let args = process.argv; // Accessing arguments
@@ -13,24 +13,23 @@ const info = () => {
   const name = CFonts.render("--Docket--", {
     font: "block",
     align: "center",
+    lineHeight: 4,
     colors: ["#880E4F", "#AA00FF"],
-    space: false,
+    space: true,
   });
   console.log(name.string);
-  const greeting = CFonts.render(
-    `Welcome to DOCKET !\nDOCKET manages the daily tasks you plan for your day.`,
-    {
-      font: "tiny",
-      lineHeight: 2,
-      align: "center",
-      colors: ["white"],
-      space: true,
-    }
-  );
+  const greeting = CFonts.render(`Welcome to DOCKET !\n`, {
+    font: "tiny",
+    lineHeight: 2,
+    align: "center",
+    colors: ["white"],
+    space: false,
+  });
   console.log(greeting.string);
   console.log(
-    `   Usage :-
-  --------------------------------------------------------------------------------------------------------------
+    chalk.hex("#AA00FF").bold(
+      `   Usage :-
+  -----------------------------------------------------------------------------------------------------
                                                                                                                       
    $ ./task add 2 draw doodle   # Add a new task with priority 2 and text "draw doodle" to the list.\n 
    $ ./task ls                  # Show incomplete tasks sorted by priority in ascending order.\n      
@@ -39,8 +38,9 @@ const info = () => {
    $ ./task report              # Statistics.\n
    $ ./task help                # Show usage.                                                              
                                                                                                                       
-  --------------------------------------------------------------------------------------------------------------
-    `.green
+  -----------------------------------------------------------------------------------------------------
+    `
+    )
   );
 };
 
@@ -48,24 +48,24 @@ const info = () => {
 const pendingTasks = () => {
   currentDate = new Date();
   let dateString = currentDate.toISOString().substring(0, 10);
-  console.log(dateString.yellow);
+  console.log(chalk.yellow(`  ${dateString}`));
   fs.readFile("task.txt", (err, data) => {
     if (err) {
-      console.log(`There are no pending tasks!`.blue);
+      console.log(chalk.blue(`  There are no pending tasks!`));
     } else {
       let taskData = data.toString().split("\n");
       if (taskData == "") {
-        console.log(`There are no pending tasks!`.blue);
+        console.log(chalk.blue(`  There are no pending tasks!`));
       } else {
         taskData.sort();
         if (taskData[0] == "") {
           taskData.shift();
         }
-        console.log(`\nPending : ${taskData.length}`.yellow);
+        console.log(chalk.yellow(`\n  Pending : ${taskData.length}`));
         for (let i = 0; i < taskData.length; i++) {
           var temp = taskData[i].toString().split("");
           var task = taskData[i].toString().substring(1);
-          console.log(`${i + 1}.${task} [${temp[0]}]`);
+          console.log(`  ${i + 1}.${task} [${temp[0]}]`);
         }
       }
     }
@@ -80,10 +80,13 @@ const add = () => {
     let addTask = `\n${p} ${argument}`;
     fs.appendFile("task.txt", addTask, (err) => {
       if (err) throw err;
-      else console.log(`Added task: "${argument}" with priority ${p}`.green);
+      else
+        console.log(
+          chalk.green(`  Added task: "${argument}" with priority ${p}`)
+        );
     });
   } else {
-    console.log(`Error: Missing tasks string. Nothing added!`.red);
+    console.log(chalk.red(`  Error: Missing tasks string. Nothing added!`));
   }
 };
 
@@ -94,8 +97,9 @@ const del = () => {
     fs.readFile("task.txt", (err, data) => {
       if (err)
         console.log(
-          `Error: task with index #${index} does not exist. Nothing deleted.`
-            .red
+          chalk.red(
+            `  Error: task with index #${index} does not exist. Nothing deleted.`
+          )
         );
       else {
         let taskData = data.toString().split("\n");
@@ -105,21 +109,22 @@ const del = () => {
         }
         if (index > taskData.length || index < 1) {
           console.log(
-            `Error: task with index #${index} does not exist. Nothing deleted.`
-              .red
+            chalk.red(
+              `  Error: task with index #${index} does not exist. Nothing deleted.`
+            )
           );
         } else {
           taskData.splice(index - 1, 1);
           let newData = taskData.join("\n");
           fs.writeFile("task.txt", newData, (err) => {
             if (err) throw err;
-            else console.log(`Deleted task #${index}`.green);
+            else console.log(chalk.green(`  Deleted task #${index}`));
           });
         }
       }
     });
   } else {
-    console.log(`Error: Missing NUMBER for deleting tasks.`.red);
+    console.log(chalk.red(`  Error: Missing NUMBER for deleting tasks.`));
   }
 };
 
@@ -130,19 +135,26 @@ const done = () => {
     fs.readFile("task.txt", (err, data) => {
       if (err)
         console.log(
-          `Error: no incomplete item with index #${index} exists.`.red
+          chalk.red(`  Error: no incomplete item with index #${index} exists.`)
         );
       else {
         let taskData = data.toString().split("\n");
         taskData.sort();
         if (index > taskData.length || index < 1)
-          console.log(`Error: no incomplete item with index #${index} exists.`);
+          console.log(
+            chalk.red(
+              `  Error: no incomplete item with index #${index} exists.`
+            )
+          );
         else {
           if (taskData[0] == "") taskData.shift();
           let doneTask = taskData[index - 1].slice(1).trim();
           fs.appendFile("completed.txt", doneTask + "\n", (err) => {
             if (err) throw err;
-            else console.log(`Task "${doneTask}" has been completed.`.green);
+            else
+              console.log(
+                chalk.green(`  Task "${doneTask}" has been completed.`)
+              );
           });
           taskData.splice(index - 1, 1);
           let newData = taskData.join("\n");
@@ -153,7 +165,7 @@ const done = () => {
       }
     });
   } else {
-    console.log(`Error: Missing NUMBER for marking tasks as done.`);
+    console.log(`  Error: Missing NUMBER for marking tasks as done.`);
   }
 };
 
@@ -161,17 +173,17 @@ const done = () => {
 const completedTask = () => {
   fs.readFile("completed.txt", (err, data) => {
     if (err) {
-      console.log(`There are no completed tasks!`.blue);
+      console.log(chalk.blue(`  There are no completed tasks!`));
     } else {
       let ctaskData = data.toString().split("\n");
       if (ctaskData == "") {
-        console.log(`There are no completed tasks!`.blue);
+        console.log(chalk.blue(`  There are no completed tasks!`));
       } else {
         ctaskData.pop();
-        console.log(`\nCompleted : ${ctaskData.length}`.yellow);
+        console.log(chalk.yellow(`\n  Completed : ${ctaskData.length}`));
         for (let k = 0; k < ctaskData.length; k++) {
           var cTask = ctaskData[k];
-          console.log(`${k + 1}. ${cTask}`);
+          console.log(`  ${k + 1}. ${cTask}`);
         }
       }
     }
