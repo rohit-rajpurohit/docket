@@ -1,7 +1,7 @@
 # DOCKET
 
 DOCKET is a command-line (CLI) program to help you manage your daily tasks.
-<div><kbd><img src="https://raw.githubusercontent.com/rohit-rajpurohit/DOCKET/main/Screenshots/S1.png" height= "500" alt="Docket"/></kbd></div>
+<div><kbd><img src="https://raw.githubusercontent.com/rohit-rajpurohit/DOCKET/main/Screenshots/S1.png" alt="Docket"/></kbd></div>
 
 ## Usage
 
