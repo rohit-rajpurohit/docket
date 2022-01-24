@@ -92,8 +92,4 @@ Completed : 1
 1. study for exams
 ```
 
-## Screenshots
 
-![2.png](https://raw.githubusercontent.com/rohit-rajpurohit/DOCKET/main/Screenshots/S2.png)
-
-![3.png](https://raw.githubusercontent.com/rohit-rajpurohit/DOCKET/main/Screenshots/S3.png)
